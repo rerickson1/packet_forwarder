@@ -45,7 +45,13 @@ func configureIndividualChannels(ctx log.Interface, conf util.Config) error {
 		if err != nil {
 			return err
 		}
-		ctx.Info("LoRa standard channel configured")
+
+		ctx.WithFields(log.Fields{
+			"RFChain": conf.Concentrator.LoraSTDChannel.Radio,
+			"Freq":    conf.Concentrator.LoraSTDChannel.IfValue,
+			"SF":      *conf.Concentrator.LoraSTDChannel.SpreadFactor,
+			"BW":      *conf.Concentrator.LoraSTDChannel.Bandwidth,
+		}).Info("LoRa standard channel configured")
 	} else {
 		ctx.Warn("No configuration for LoRa standard channel, ignoring")
 	}
