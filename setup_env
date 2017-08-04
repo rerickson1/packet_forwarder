@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export GOOS=linux
+export GOARCH=arm
+export GOARM=7
+export CC=arm-laird-linux-gnueabi-gcc
+export CROSS_COMPILE=arm-laird-linux-gnueabi-
+export SPIDEV=/dev/spidev32766.0
