@@ -118,6 +118,11 @@ func wrapUplinkPayload(ctx log.Interface, packets []wrapper.Packet, ignoreCRC bo
 			continue
 		}
 
+		err := LogRxPacketAsJSON(inspectedPacket)
+		if err != nil {
+			ctx.WithError(err).Warn("Error logging LoRa uplink as JSON")
+		}
+
 		// Creating and filling the uplink message
 		message, err := createUplinkMessage(gatewayID, inspectedPacket)
 		if err != nil {
