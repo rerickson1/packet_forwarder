@@ -2,7 +2,10 @@
 
 package wrapper
 
-import "math/rand"
+import (
+	"encoding/base64"
+	"math/rand"
+)
 
 const (
 	StatusCRCOK  = uint8(0)
@@ -20,8 +23,14 @@ const (
 func Receive() ([]Packet, error) {
 	packets := make([]Packet, 0)
 	if rand.Float64() <= 0.0002 {
+		b64Payload := "gEAFACaA3wAB9nHlo+fT51ik9OWxWbQ3EHNHmA=="
+		payloadVal, err := base64.StdEncoding.DecodeString(b64Payload)
+		if err != nil {
+			return packets, nil
+		}
 		dummyPacket := Packet{
-			Payload: make([]byte, 0),
+			Payload:  payloadVal,
+			Coderate: 4,
 		}
 		packets = append(packets, dummyPacket)
 	}
