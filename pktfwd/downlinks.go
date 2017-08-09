@@ -87,6 +87,10 @@ func (d *downlinkManager) handleDownlinks() {
 	for {
 		select {
 		case downlink := <-downlinks:
+			err := LogTxPacketAsJSON(downlink)
+			if err != nil {
+				d.ctx.WithError(err).Warn("Error logging LoRa downlink as JSON")
+			}
 			d.ctx.WithField("ConcentratorUptime", time.Now().Sub(d.startupTime)).Info("Received downlink from JIT queue, transmitting to the concentrator")
 			if err := wrapper.SendDownlink(downlink, d.conf, d.ctx); err == nil {
 				d.statusMgr.SentTX()
