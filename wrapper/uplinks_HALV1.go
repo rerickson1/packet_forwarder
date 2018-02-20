@@ -116,6 +116,9 @@ func packetFromCPacket(cPacket C.struct_lgw_pkt_rx_s, currentReference gpsRefere
 			p.Time = time.Unix(int64(pktUtcTime.tv_sec), int64(pktUtcTime.tv_nsec)).UnixNano()
 			p.Gps.Time = p.Time
 		}
+	} else {
+		// Fill the time in with the current system time
+		p.Time = time.Now().UnixNano()
 	}
 	return p
 }
